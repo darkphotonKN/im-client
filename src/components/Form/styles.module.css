@@ -1,0 +1,27 @@
+.formWrapper {
+  display: flex;
+  flex-direction: column;
+  width: 600px;
+  gap: 10px;
+}
+
+.error {
+  color: red;
+  font-weight: 500;
+  font-size: 16px;
+  margin: "15px 0";
+  text-align: center;
+  width: 100%;
+}
+
+.submitBtn {
+  border-radius: 4px;
+  padding: 4px 0;
+  width: 200px;
+  font-size: 16px;
+}
+
+.submitArea {
+  display: flex;
+  justify-content: flex-end;
+}
