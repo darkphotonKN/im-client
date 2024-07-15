@@ -16,12 +16,14 @@
 
 .submitBtn {
   border-radius: 4px;
-  padding: 4px 0;
-  width: 200px;
-  font-size: 16px;
+  padding: 4px 10px;
 }
 
 .submitArea {
   display: flex;
   justify-content: flex-end;
+}
+
+.input {
+  padding: 4px 10px;
 }

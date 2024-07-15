@@ -6,6 +6,7 @@ import NewMessageForm from "@/components/Form/NewMessage";
 export default function Home() {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [message, setMessages] = useState<string[]>([]);
+  const [nameValue, setNameValue] = useState<string>("");
 
   useEffect(() => {
     // create a new websocket server
@@ -41,6 +42,24 @@ export default function Home() {
     };
   }, []);
 
+  // use name value to fire off a websocket message
+  function handleJoinChat() {
+    if (nameValue) {
+      console.log("sending user to websockets");
+
+      const msgPayload = {
+        action: "joinchat",
+        message: nameValue,
+      };
+
+      ws?.send(JSON.stringify(msgPayload));
+    }
+  }
+
+  function handleInpChange(event: React.ChangeEvent<HTMLInputElement>) {
+    setNameValue(event.target.value);
+  }
+
   return (
     <div className={styles.mainView}>
       <h2>Instant Messaging </h2>
@@ -49,6 +68,18 @@ export default function Home() {
       <div className={styles.textArea}></div>
 
       {/* Send Message Form */}
+
+      <div className={styles.joinChat}>
+        <label htmlFor="name">Name</label>
+        <input
+          placeholder="Enter Name"
+          name="name"
+          value={nameValue}
+          onChange={handleInpChange}
+        />
+        <button onClick={handleJoinChat}>Join Chat</button>
+      </div>
+
       <NewMessageForm socket={ws} />
     </div>
   );
