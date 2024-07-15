@@ -7,6 +7,7 @@ export default function Home() {
   const [ws, setWs] = useState<WebSocket | null>(null);
   const [message, setMessages] = useState<string[]>([]);
   const [nameValue, setNameValue] = useState<string>("");
+  const [clientList, setClientList] = useState<string[]>([]);
 
   useEffect(() => {
     // create a new websocket server
@@ -28,6 +29,17 @@ export default function Home() {
       const { data: json } = event;
       const message = JSON.parse(json);
       console.log("Message:", message);
+
+      // use type to determine how to handle the data
+      switch (message.message_type) {
+        case "clients_list": {
+          setClientList(message.message);
+          break;
+        }
+        default: {
+          break;
+        }
+      }
     };
 
     socket.onclose = () => {
@@ -60,27 +72,40 @@ export default function Home() {
     setNameValue(event.target.value);
   }
 
+  console.log("clientList:", clientList);
   return (
     <div className={styles.mainView}>
-      <h2>Instant Messaging </h2>
+      <h2>Instant Messaging</h2>
 
-      {/* Text Area */}
-      <div className={styles.textArea}></div>
+      <div className={styles.contentArea}>
+        <div className={styles.chatArea}>
+          {/* Text Area */}
+          <div className={styles.textArea}></div>
 
-      {/* Send Message Form */}
+          {/* Send Message Form */}
 
-      <div className={styles.joinChat}>
-        <label htmlFor="name">Name</label>
-        <input
-          placeholder="Enter Name"
-          name="name"
-          value={nameValue}
-          onChange={handleInpChange}
-        />
-        <button onClick={handleJoinChat}>Join Chat</button>
+          <div className={styles.joinChat}>
+            <label htmlFor="name">Name</label>
+            <input
+              placeholder="Enter Name"
+              name="name"
+              value={nameValue}
+              onChange={handleInpChange}
+            />
+            <button onClick={handleJoinChat}>Join Chat</button>
+          </div>
+          <NewMessageForm socket={ws} />
+        </div>
+
+        <div className={styles.membersOnlineListArea}>
+          <div className={styles.membersOnlineTitle}>Members Online</div>
+          <div className={styles.membersOnlineList}>
+            {clientList?.map((client) => (
+              <div className={styles.member}>{client}</div>
+            ))}
+          </div>
+        </div>
       </div>
-
-      <NewMessageForm socket={ws} />
     </div>
   );
 }

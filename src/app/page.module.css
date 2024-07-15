@@ -31,3 +31,24 @@
 .joinChat input {
   padding: 4px 10px;
 }
+
+.contentArea {
+  display: flex;
+  gap: 20px;
+}
+
+.membersOnlineListArea {
+  margin-top: 20px;
+}
+.membersOnlineTitle {
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.membersOnlineList {
+  padding: 15px 0;
+}
+
+.membersOnlineList .member {
+  margin: 5px 0;
+}
